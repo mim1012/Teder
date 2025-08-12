@@ -1,0 +1,46 @@
+# TEDER BOT EXE 빌드용 필수 의존성
+# PyInstaller로 exe 파일을 빌드하는데 필요한 패키지들
+
+# PyInstaller - EXE 패키징 도구
+pyinstaller>=5.13.0
+
+# 데이터 처리
+pandas>=2.0.0
+numpy>=1.24.0
+
+# 기술적 지표 계산
+pandas-ta>=0.3.14b0
+
+# HTTP 요청
+requests>=2.31.0
+urllib3>=2.0.0
+certifi>=2023.0.0
+
+# 환경 변수 관리 (개발용, exe에서는 config_manager 사용)
+python-dotenv>=1.0.0
+
+# CLI 인터페이스 (옵션)
+rich>=13.0.0
+
+# 암호화 및 인증
+cryptography>=41.0.0
+
+# 시간 처리
+pytz>=2023.3
+
+# JSON 처리 (내장 모듈이지만 명시적 추가)
+# json은 내장 모듈이므로 requirements에 포함하지 않음
+
+# 수학 계산
+# decimal은 내장 모듈이므로 requirements에 포함하지 않음
+
+# 추가 유틸리티
+pathlib2>=2.3.7; python_version<"3.4"
+
+# 빌드 환경에서만 필요한 패키지들
+setuptools>=68.0.0
+wheel>=0.41.0
+
+# 호환성 확보를 위한 패키지들
+packaging>=23.0
+six>=1.16.0

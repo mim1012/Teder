@@ -1,0 +1,118 @@
+# Prometheus Alert Rules for Teder Trading Bot
+
+groups:
+  - name: teder_trading_bot
+    rules:
+      # Container down alert
+      - alert: TederBotContainerDown
+        expr: up{job="teder-bot"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: teder-bot
+        annotations:
+          summary: "Teder trading bot container is down"
+          description: "The Teder trading bot container has been down for more than 1 minute"
+
+      # High memory usage
+      - alert: TederBotHighMemoryUsage
+        expr: (container_memory_usage_bytes{name="teder-trading-bot"} / container_spec_memory_limit_bytes{name="teder-trading-bot"}) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: teder-bot
+        annotations:
+          summary: "High memory usage in Teder bot"
+          description: "Memory usage is above 80% for more than 5 minutes"
+
+      # High CPU usage
+      - alert: TederBotHighCPUUsage
+        expr: rate(container_cpu_usage_seconds_total{name="teder-trading-bot"}[5m]) * 100 > 80
+        for: 10m
+        labels:
+          severity: warning
+          service: teder-bot
+        annotations:
+          summary: "High CPU usage in Teder bot"
+          description: "CPU usage is above 80% for more than 10 minutes"
+
+      # Disk space alert
+      - alert: TederBotLowDiskSpace
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 10
+        for: 5m
+        labels:
+          severity: critical
+          service: system
+        annotations:
+          summary: "Low disk space on Teder bot server"
+          description: "Disk space is below 10%"
+
+  - name: teder_system_health
+    rules:
+      # Container restart alert
+      - alert: TederBotFrequentRestarts
+        expr: increase(container_last_seen{name="teder-trading-bot"}[1h]) > 3
+        for: 0m
+        labels:
+          severity: warning
+          service: teder-bot
+        annotations:
+          summary: "Frequent restarts detected"
+          description: "Container has restarted more than 3 times in the last hour"
+
+      # Network connectivity
+      - alert: TederBotNetworkConnectivity
+        expr: up{job="node-exporter"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: system
+        annotations:
+          summary: "Network connectivity issues"
+          description: "Cannot reach system monitoring endpoints"
+
+      # Log file size alert
+      - alert: TederBotLargeLogFiles
+        expr: node_filesystem_size_bytes{mountpoint="/opt/teder/logs"} > 1073741824  # 1GB
+        for: 10m
+        labels:
+          severity: warning
+          service: teder-bot
+        annotations:
+          summary: "Large log files detected"
+          description: "Log directory size is over 1GB"
+
+  - name: teder_trading_health
+    rules:
+      # API connectivity (if metrics are exposed)
+      - alert: TederBotAPIError
+        expr: teder_api_errors_total > 10
+        for: 5m
+        labels:
+          severity: warning
+          service: teder-bot
+        annotations:
+          summary: "High API error rate"
+          description: "More than 10 API errors detected in the last 5 minutes"
+
+      # Trading inactivity (if metrics are exposed)
+      - alert: TederBotTradingInactive
+        expr: time() - teder_last_trade_timestamp > 3600  # 1 hour
+        for: 0m
+        labels:
+          severity: warning
+          service: teder-bot
+        annotations:
+          summary: "No trading activity"
+          description: "No trades executed in the last hour"
+
+      # Balance check (if metrics are exposed)
+      - alert: TederBotLowBalance
+        expr: teder_balance_krw < 10000  # 10,000 KRW
+        for: 1m
+        labels:
+          severity: warning
+          service: teder-bot
+        annotations:
+          summary: "Low trading balance"
+          description: "KRW balance is below 10,000"

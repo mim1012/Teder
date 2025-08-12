@@ -1,0 +1,61 @@
+[Unit]
+Description=Teder Crypto Trading Bot
+Documentation=https://github.com/your-repo/teder
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+RemainAfterExit=yes
+User=teder
+Group=teder
+
+# Working directory
+WorkingDirectory=/opt/teder
+
+# Environment
+Environment=COMPOSE_PROJECT_NAME=teder
+EnvironmentFile=/opt/teder/.env
+
+# Service commands
+ExecStart=/usr/local/bin/docker-compose up -d --remove-orphans
+ExecStop=/usr/local/bin/docker-compose down --timeout 30
+ExecReload=/usr/local/bin/docker-compose restart
+
+# Health monitoring
+ExecStartPost=/bin/sleep 30
+ExecStartPost=/opt/teder/scripts/health-check.sh check
+
+# Restart policy
+Restart=always
+RestartSec=30
+StartLimitInterval=300
+StartLimitBurst=3
+
+# Resource limits
+LimitNOFILE=65536
+LimitMEMLOCK=infinity
+
+# Security settings
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/teder/logs /opt/teder/data /opt/teder/backups
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+
+# Process management
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStartSec=300
+TimeoutStopSec=120
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=teder-bot
+
+[Install]
+WantedBy=multi-user.target

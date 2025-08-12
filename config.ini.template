@@ -1,0 +1,76 @@
+# TEDER BOT 설정 파일
+# 이 파일을 수정하여 봇의 동작을 설정할 수 있습니다.
+
+[COINONE]
+# 코인원 API 설정
+# API 키는 코인원 웹사이트에서 발급받을 수 있습니다.
+# 보안을 위해 IP 제한을 설정하는 것을 권장합니다.
+ACCESS_TOKEN = 여기에_액세스_토큰을_입력하세요
+SECRET_KEY = 여기에_시크릿_키를_입력하세요
+
+# 거래 모드 설정
+# True: 모의거래 (실제 거래 없음, 테스트용)
+# False: 실거래 (실제 자금으로 거래)
+DRY_RUN = True
+
+# 로그 레벨 설정
+# DEBUG: 모든 로그 출력
+# INFO: 일반 정보 로그 출력
+# WARNING: 경고 이상만 출력
+# ERROR: 오류만 출력
+LOG_LEVEL = INFO
+
+[TRADING]
+# 거래 전략 설정
+# RSI 계산 기간 (일반적으로 14)
+RSI_PERIOD = 14
+
+# EMA 계산 기간 (일반적으로 20)
+EMA_PERIOD = 20
+
+# RSI 기울기 확인 기간들
+RSI_SLOPE_PERIODS_3 = 3
+RSI_SLOPE_PERIODS_5 = 5
+
+# EMA 기울기 임계값들 (더 큰 값일수록 더 강한 상승 신호 요구)
+EMA_SLOPE_THRESHOLD_3 = 2.0
+EMA_SLOPE_THRESHOLD_5 = 1.5
+
+# 익절 목표 (원 단위)
+# 매수가에서 이 금액만큼 상승하면 매도
+PROFIT_TARGET = 4.0
+
+# 최대 보유 시간 (시간 단위)
+# 이 시간이 지나면 강제 매도
+MAX_HOLD_HOURS = 24
+
+# RSI 과매수 임계값
+# RSI가 이 값을 넘으면 매도 신호로 판단
+RSI_OVERBOUGHT = 70.0
+
+[SYSTEM]
+# 시스템 설정
+# 시장 데이터 확인 주기 (초 단위)
+CHECK_INTERVAL = 60
+
+# 로그 파일 경로
+LOG_FILE = logs/trading_bot.log
+
+# 로그 파일 최대 크기 (바이트)
+# 10MB = 10485760
+MAX_LOG_SIZE = 10485760
+
+# 로그 파일 백업 개수
+LOG_BACKUP_COUNT = 5
+
+# 설정 파일 사용 방법:
+# 1. ACCESS_TOKEN과 SECRET_KEY를 코인원에서 발급받은 값으로 변경하세요
+# 2. DRY_RUN을 False로 설정하면 실제 거래가 시작됩니다 (주의!)
+# 3. 거래 전략 파라미터들을 조정하여 최적화할 수 있습니다
+# 4. 설정 변경 후 프로그램을 다시 시작해야 적용됩니다
+
+# 보안 주의사항:
+# - API 키는 절대 다른 사람과 공유하지 마세요
+# - 이 파일을 온라인에 업로드하지 마세요
+# - 코인원에서 IP 제한을 설정하는 것을 권장합니다
+# - 거래량 제한을 설정하는 것을 권장합니다
