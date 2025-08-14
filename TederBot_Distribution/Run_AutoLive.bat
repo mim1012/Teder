@@ -69,11 +69,9 @@ if not exist logs mkdir logs
 
 rem Launch the bot executable
 echo Starting TederBot.exe ...
-"%cd%\TederBot.exe"
+"%cd%\dist\TederBot.exe"
 
 echo.
 echo Program terminated.
 endlocal
 exit /b 0
-
-

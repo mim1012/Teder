@@ -1,18 +1,41 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-
 a = Analysis(
     ['main_live.py'],
     pathex=[],
     binaries=[],
-    datas=[('src', 'src'), ('config', 'config'), ('backtest', 'backtest')],
-    hiddenimports=['pandas', 'numpy', 'requests', 'dotenv', 'rich', 'pandas_ta'],
+    datas=[
+        ('src', 'src'),
+        ('config', 'config'),
+        ('backtest', 'backtest'),
+    ],
+    hiddenimports=[
+        'pandas',
+        'numpy',
+        'requests',
+        'dotenv',
+        'pandas_ta',
+        'rich',
+        'src',
+        'src.api',
+        'src.api.coinone_client',
+        'src.indicators',
+        'src.indicators.rsi',
+        'src.indicators.ema',
+        'src.strategy',
+        'src.ui',
+        'src.utils',
+        'backtest',
+        'backtest.backtest_engine',
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=['pkg_resources'],
     noarchive=False,
+    optimize=0,
 )
+
 pyz = PYZ(a.pure)
 
 exe = EXE(

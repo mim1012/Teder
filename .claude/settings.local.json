@@ -17,7 +17,11 @@
       "Bash(cp:*)",
       "Bash(git remote add:*)",
       "Bash(git add:*)",
-      "Bash(git init:*)"
+      "Bash(git init:*)",
+      "Bash(Run_AutoLive.bat)",
+      "Bash(cmd /c:*)",
+      "Bash(powershell:*)",
+      "Bash(pyinstaller:*)"
     ],
     "deny": []
   }

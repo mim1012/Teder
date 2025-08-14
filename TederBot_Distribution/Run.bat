@@ -1,3 +1,3 @@
-@echo off 
-TederBot.exe 
-pause 
+@echo off
+dist\TederBot.exe
+pause
